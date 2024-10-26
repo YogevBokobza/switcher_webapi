@@ -7,16 +7,16 @@
 [![pages-badge]][pages]
 [![codecov-badge]][codecov]
 
-Gain containerized access to your local <a href="https://www.switcher.co.il/">Switcher</a> smart devices
+Gain containerized access to your local [Switcher][switcher] smart devices.
 
 ```shell
 docker run -d -p 8000:8000 --name switcher_webapi tomerfi/switcher_webapi:latest
 ```
 
-Check the docs: [https://switcher-webapi.tomfi.info][docs]
+Check the docs: [https://switcher-webapi.tomfi.info][docs].
 
 > [!IMPORTANT]  
-> Since version 2.x.x, all endpoints require a device type. See [docs][docs].
+> Since version 2, all endpoints require a device type. See [docs][docs].
 
 <!-- Links -->
 [codecov]: https://codecov.io/gh/TomerFi/switcher_webapi
@@ -25,6 +25,7 @@ Check the docs: [https://switcher-webapi.tomfi.info][docs]
 [license]: https://github.com/TomerFi/switcher_webapi/blob/dev/LICENSE
 [pages]: https://github.com/TomerFi/switcher_webapi/actions/workflows/pages.yml
 [stage]: https://github.com/TomerFi/switcher_webapi/actions/workflows/stage.yml
+[switcher]: https://www.switcher.co.il/
 <!-- Badges -->
 [codecov-badge]: https://codecov.io/gh/TomerFi/switcher_webapi/graph/badge.svg
 [license-badge]: https://img.shields.io/github/license/tomerfi/switcher_webapi
