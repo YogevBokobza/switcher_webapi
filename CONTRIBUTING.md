@@ -130,8 +130,7 @@ tox -e docs-serve
 
 ### Docker 
 
-> [!IMPORTANT]  
-> Testing requires [make][make] and [npm][npm].
+> Requires [make][make] and [npm][npm].
 
 Lint the Dockerfile:
 
