@@ -59,8 +59,11 @@ ENDPOINT_GET_SCHEDULES = "/switcher/get_schedules"
 ENDPOINT_DELETE_SCHEDULE = "/switcher/delete_schedule"
 ENDPOINT_CREATE_SCHEDULE = "/switcher/create_schedule"
 ENDPOINT_SET_POSITION = "/switcher/set_shutter_position"
+ENDPOINT_TURN_ON_LIGHT = "/switcher/turn_on_light"
+ENDPOINT_TURN_OFF_LIGHT = "/switcher/turn_off_light"
 ENDPOINT_GET_BREEZE_STATE = "/switcher/get_breeze_state"
 ENDPOINT_GET_SHUTTER_STATE = "/switcher/get_shutter_state"
+ENDPOINT_GET_LIGHT_STATE = "/switcher/get_light_state"
 ENDPOINT_POST_STOP_SHUTTER = "/switcher/stop_shutter"
 ENDPOINT_CONTROL_BREEZE_DEVICE = "/switcher/control_breeze_device"
 
@@ -78,6 +81,9 @@ DEVICES = {
     "runners12": DeviceType.RUNNER_S12,
     "light01": DeviceType.LIGHT_SL01,
     "light01mini": DeviceType.LIGHT_SL01_MINI,
+    "light02": DeviceType.LIGHT_SL02,
+    "light02mini": DeviceType.LIGHT_SL02_MINI,
+    "light03": DeviceType.LIGHT_SL03,
 }
 
 parser = ArgumentParser(
@@ -303,6 +309,54 @@ async def set_position(request: web.Request) -> web.Response:
         )
 
 
+@routes.post(ENDPOINT_TURN_ON_LIGHT)
+async def turn_on_light(request: web.Request) -> web.Response:
+    """Use to turn on the light device."""
+    device_type = DEVICES[request.query[KEY_TYPE]]
+    if KEY_LOGIN_KEY in request.query:
+        login_key = request.query[KEY_LOGIN_KEY]
+    else:
+        login_key = "00"
+    if KEY_INDEX in request.query:
+        index = int(request.query[KEY_INDEX])
+    else:
+        index = 0
+    if KEY_TOKEN in request.query:
+        token = request.query[KEY_TOKEN]
+    else:
+        token = None
+    async with SwitcherType2Api(
+        device_type, request.query[KEY_IP], request.query[KEY_ID], login_key, token
+    ) as swapi:
+        return web.json_response(
+            _serialize_object(await swapi.set_light(DeviceState.ON, index))
+        )
+
+
+@routes.post(ENDPOINT_TURN_OFF_LIGHT)
+async def turn_off_light(request: web.Request) -> web.Response:
+    """Use to turn off the light device."""
+    device_type = DEVICES[request.query[KEY_TYPE]]
+    if KEY_LOGIN_KEY in request.query:
+        login_key = request.query[KEY_LOGIN_KEY]
+    else:
+        login_key = "00"
+    if KEY_INDEX in request.query:
+        index = int(request.query[KEY_INDEX])
+    else:
+        index = 0
+    if KEY_TOKEN in request.query:
+        token = request.query[KEY_TOKEN]
+    else:
+        token = None
+    async with SwitcherType2Api(
+        device_type, request.query[KEY_IP], request.query[KEY_ID], login_key, token
+    ) as swapi:
+        return web.json_response(
+            _serialize_object(await swapi.set_light(DeviceState.OFF, index))
+        )
+
+
 @routes.get(ENDPOINT_GET_BREEZE_STATE)
 async def get_breeze_state(request: web.Request) -> web.Response:
     """Use for sending the get state packet to the Breeze device."""
@@ -311,10 +365,7 @@ async def get_breeze_state(request: web.Request) -> web.Response:
         login_key = request.query[KEY_LOGIN_KEY]
     else:
         login_key = "00"
-    if KEY_TOKEN in request.query:
-        token = request.query[KEY_TOKEN]
-    else:
-        token = None
+    token = None
     async with SwitcherType2Api(
         device_type, request.query[KEY_IP], request.query[KEY_ID], login_key, token
     ) as swapi:
@@ -343,6 +394,28 @@ async def get_shutter_state(request: web.Request) -> web.Response:
         return web.json_response(
             _serialize_object(await swapi.get_shutter_state(index))
         )
+
+
+@routes.get(ENDPOINT_GET_LIGHT_STATE)
+async def get_light_state(request: web.Request) -> web.Response:
+    """Use for sending the get state packet to the Light device."""
+    device_type = DEVICES[request.query[KEY_TYPE]]
+    if KEY_LOGIN_KEY in request.query:
+        login_key = request.query[KEY_LOGIN_KEY]
+    else:
+        login_key = "00"
+    if KEY_INDEX in request.query:
+        index = int(request.query[KEY_INDEX])
+    else:
+        index = 0
+    if KEY_TOKEN in request.query:
+        token = request.query[KEY_TOKEN]
+    else:
+        token = None
+    async with SwitcherType2Api(
+        device_type, request.query[KEY_IP], request.query[KEY_ID], login_key, token
+    ) as swapi:
+        return web.json_response(_serialize_object(await swapi.get_light_state(index)))
 
 
 @routes.post(ENDPOINT_POST_STOP_SHUTTER)
@@ -392,10 +465,7 @@ async def control_breeze_device(request: web.Request) -> web.Response:
         login_key = request.query[KEY_LOGIN_KEY]
     else:
         login_key = "00"
-    if KEY_TOKEN in request.query:
-        token = request.query[KEY_TOKEN]
-    else:
-        token = None
+    token = None
     async with SwitcherType2Api(
         device_type,
         request.query[KEY_IP],
