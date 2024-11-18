@@ -211,9 +211,7 @@ async def test_successful_turn_on_post_request(
     assert_that(await response.json()).contains_entry(fake_serialized_data)
 
 
-@patch(
-    "aioswitcher.api.SwitcherApi.control_device", side_effect=Exception("blabla")
-)
+@patch("aioswitcher.api.SwitcherApi.control_device", side_effect=Exception("blabla"))
 async def test_erroneous_turn_on_post_request(
     api_control_device, response_serializer, api_connect, api_disconnect, api_client
 ):
@@ -260,9 +258,7 @@ async def test_successful_turn_off_post_request(
     assert_that(await response.json()).contains_entry(fake_serialized_data)
 
 
-@patch(
-    "aioswitcher.api.SwitcherApi.control_device", side_effect=Exception("blabla")
-)
+@patch("aioswitcher.api.SwitcherApi.control_device", side_effect=Exception("blabla"))
 async def test_erroneous_turn_off_post_request(
     api_control_device, response_serializer, api_connect, api_disconnect, api_client
 ):
@@ -309,9 +305,7 @@ async def test_successful_set_name_patch_request(
     assert_that(await response.json()).contains_entry(fake_serialized_data)
 
 
-@patch(
-    "aioswitcher.api.SwitcherApi.set_device_name", side_effect=Exception("blabla")
-)
+@patch("aioswitcher.api.SwitcherApi.set_device_name", side_effect=Exception("blabla"))
 async def test_erroneous_set_name_patch_request(
     api_set_device_name, response_serializer, api_connect, api_disconnect, api_client
 ):
@@ -462,9 +456,7 @@ async def test_successful_get_schedules_get_request(
     assert_that(await response.json()).contains(fake_serialized_data)
 
 
-@patch(
-    "aioswitcher.api.SwitcherApi.get_schedules", side_effect=Exception("blabla")
-)
+@patch("aioswitcher.api.SwitcherApi.get_schedules", side_effect=Exception("blabla"))
 async def test_erroneous_get_schedules_get_request(
     api_get_schedules, response_serializer, api_connect, api_disconnect, api_client
 ):
@@ -529,9 +521,7 @@ async def test_delete_schedule_with_faulty_no_schedule_delete_request(
     )
 
 
-@patch(
-    "aioswitcher.api.SwitcherApi.delete_schedule", side_effect=Exception("blabla")
-)
+@patch("aioswitcher.api.SwitcherApi.delete_schedule", side_effect=Exception("blabla"))
 async def test_errorneous_delete_schedule_delete_request(
     api_delete_schedule, response_serializer, api_connect, api_disconnect, api_client
 ):
@@ -697,9 +687,7 @@ async def test_create_schedule_with_faulty_missing_key_post_request(
     assert_that(await response.json()).contains_entry({"error": expected_error_msg})
 
 
-@patch(
-    "aioswitcher.api.SwitcherApi.create_schedule", side_effect=Exception("blabla")
-)
+@patch("aioswitcher.api.SwitcherApi.create_schedule", side_effect=Exception("blabla"))
 async def test_errorneous_create_schedule(
     api_create_schedule, response_serializer, api_connect, api_disconnect, api_client
 ):
