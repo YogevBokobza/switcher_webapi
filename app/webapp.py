@@ -17,7 +17,7 @@ from aiohttp.log import (
 )
 from aiohttp.web_request import BaseRequest
 from aiohttp.web_response import StreamResponse
-from aioswitcher.api import Command, SwitcherType1Api, SwitcherType2Api
+from aioswitcher.api import Command, SwitcherApi
 from aioswitcher.api.remotes import SwitcherBreezeRemoteManager
 from aioswitcher.device import (
     DeviceState,
@@ -131,7 +131,7 @@ async def get_state(request: web.Request) -> web.Response:
         login_key = request.query[KEY_LOGIN_KEY]
     else:
         login_key = "00"
-    async with SwitcherType1Api(
+    async with SwitcherApi(
         device_type, request.query[KEY_IP], request.query[KEY_ID], login_key
     ) as swapi:
         return web.json_response(_serialize_object(await swapi.get_state()))
@@ -150,7 +150,7 @@ async def turn_on(request: web.Request) -> web.Response:
         login_key = request.query[KEY_LOGIN_KEY]
     else:
         login_key = "00"
-    async with SwitcherType1Api(
+    async with SwitcherApi(
         device_type, request.query[KEY_IP], request.query[KEY_ID], login_key
     ) as swapi:
         return web.json_response(
@@ -166,7 +166,7 @@ async def turn_off(request: web.Request) -> web.Response:
         login_key = request.query[KEY_LOGIN_KEY]
     else:
         login_key = "00"
-    async with SwitcherType1Api(
+    async with SwitcherApi(
         device_type, request.query[KEY_IP], request.query[KEY_ID], login_key
     ) as swapi:
         return web.json_response(
@@ -187,7 +187,7 @@ async def set_name(request: web.Request) -> web.Response:
         login_key = request.query[KEY_LOGIN_KEY]
     else:
         login_key = "00"
-    async with SwitcherType1Api(
+    async with SwitcherApi(
         device_type, request.query[KEY_IP], request.query[KEY_ID], login_key
     ) as swapi:
         return web.json_response(_serialize_object(await swapi.set_device_name(name)))
@@ -207,7 +207,7 @@ async def set_auto_shutdown(request: web.Request) -> web.Response:
         login_key = request.query[KEY_LOGIN_KEY]
     else:
         login_key = "00"
-    async with SwitcherType1Api(
+    async with SwitcherApi(
         device_type, request.query[KEY_IP], request.query[KEY_ID], login_key
     ) as swapi:
         return web.json_response(
@@ -227,7 +227,7 @@ async def get_schedules(request: web.Request) -> web.Response:
         login_key = request.query[KEY_LOGIN_KEY]
     else:
         login_key = "00"
-    async with SwitcherType1Api(
+    async with SwitcherApi(
         device_type, request.query[KEY_IP], request.query[KEY_ID], login_key
     ) as swapi:
         response = await swapi.get_schedules()
@@ -247,7 +247,7 @@ async def delete_schedule(request: web.Request) -> web.Response:
         login_key = request.query[KEY_LOGIN_KEY]
     else:
         login_key = "00"
-    async with SwitcherType1Api(
+    async with SwitcherApi(
         device_type, request.query[KEY_IP], request.query[KEY_ID], login_key
     ) as swapi:
         return web.json_response(
@@ -270,7 +270,7 @@ async def create_schedule(request: web.Request) -> web.Response:
         login_key = request.query[KEY_LOGIN_KEY]
     else:
         login_key = "00"
-    async with SwitcherType1Api(
+    async with SwitcherApi(
         device_type, request.query[KEY_IP], request.query[KEY_ID], login_key
     ) as swapi:
         return web.json_response(
@@ -301,7 +301,7 @@ async def set_position(request: web.Request) -> web.Response:
         token = request.query[KEY_TOKEN]
     else:
         token = None
-    async with SwitcherType2Api(
+    async with SwitcherApi(
         device_type, request.query[KEY_IP], request.query[KEY_ID], login_key, token
     ) as swapi:
         return web.json_response(
@@ -325,7 +325,7 @@ async def turn_on_light(request: web.Request) -> web.Response:
         token = request.query[KEY_TOKEN]
     else:
         token = None
-    async with SwitcherType2Api(
+    async with SwitcherApi(
         device_type, request.query[KEY_IP], request.query[KEY_ID], login_key, token
     ) as swapi:
         return web.json_response(
@@ -349,7 +349,7 @@ async def turn_off_light(request: web.Request) -> web.Response:
         token = request.query[KEY_TOKEN]
     else:
         token = None
-    async with SwitcherType2Api(
+    async with SwitcherApi(
         device_type, request.query[KEY_IP], request.query[KEY_ID], login_key, token
     ) as swapi:
         return web.json_response(
@@ -366,7 +366,7 @@ async def get_breeze_state(request: web.Request) -> web.Response:
     else:
         login_key = "00"
     token = None
-    async with SwitcherType2Api(
+    async with SwitcherApi(
         device_type, request.query[KEY_IP], request.query[KEY_ID], login_key, token
     ) as swapi:
         return web.json_response(_serialize_object(await swapi.get_breeze_state()))
@@ -388,7 +388,7 @@ async def get_shutter_state(request: web.Request) -> web.Response:
         token = request.query[KEY_TOKEN]
     else:
         token = None
-    async with SwitcherType2Api(
+    async with SwitcherApi(
         device_type, request.query[KEY_IP], request.query[KEY_ID], login_key, token
     ) as swapi:
         return web.json_response(
@@ -412,7 +412,7 @@ async def get_light_state(request: web.Request) -> web.Response:
         token = request.query[KEY_TOKEN]
     else:
         token = None
-    async with SwitcherType2Api(
+    async with SwitcherApi(
         device_type, request.query[KEY_IP], request.query[KEY_ID], login_key, token
     ) as swapi:
         return web.json_response(_serialize_object(await swapi.get_light_state(index)))
@@ -434,7 +434,7 @@ async def stop_shutter(request: web.Request) -> web.Response:
         token = request.query[KEY_TOKEN]
     else:
         token = None
-    async with SwitcherType2Api(
+    async with SwitcherApi(
         device_type, request.query[KEY_IP], request.query[KEY_ID], login_key, token
     ) as swapi:
         return web.json_response(_serialize_object(await swapi.stop_shutter(index)))
@@ -466,7 +466,7 @@ async def control_breeze_device(request: web.Request) -> web.Response:
     else:
         login_key = "00"
     token = None
-    async with SwitcherType2Api(
+    async with SwitcherApi(
         device_type,
         request.query[KEY_IP],
         request.query[KEY_ID],
